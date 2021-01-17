@@ -1,11 +1,12 @@
 {
-  "daysRange": 15,
   "port": 9000,
   "database": {
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
-    "password": "",
-    "dbName": "dev-app"
+    "nos": {
+      "host": "localhost",
+      "port": 3306,
+      "username": "root",
+      "password": "",
+      "name": "nos"
+    }
   }
 }

@@ -1,20 +1,13 @@
-import express from "express"
+import express from 'express'
 const router = express.Router()
+const nosController = require('../controllers/nosController')
 
-router.route("/norange/:date").get((req, res, _) => {
-    res.status(200).send(`Getting nos data for ${req.params.date} without range`)
+router.route('/date/:date').get(nosController.getNosDate)
+router.route('/date/:date/range/:range').get(nosController.getNosDateRange)
+router.route('/concelho/:concelho').get(nosController.getNosConcelho)
+
+router.route('*').get((req, res, _) => {
+  res.status(404).send()
 })
 
-router.route("/:date").get((req, res, _) => {
-    res.status(200).send(`Getting nos data for ${req.params.date}`)
-})
-
-router.route("/concelho").get((req, res, _) => {
-    res.status(200).send(`Getting nos data for ${req.params.date}`)
-})
-
-router.route("*").get((req, res, _) => {
-    res.status(404).send()
-})
-
-module.exports = router
+export default router
