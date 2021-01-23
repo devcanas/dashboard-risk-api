@@ -4,6 +4,7 @@ import moment from 'moment'
 import {
   nos_date_template,
   nos_date_range_template,
+  nos_concelho_template,
 } from '../query/queryTemplates'
 
 import strings from '../constants/strings'
@@ -22,7 +23,15 @@ exports.getNosDate = (req: Request, res: Response, _: any) => {
   queryNos(
     queryString(nos_date_template, req.params.date),
     (err: any, rows: any, fields: any) => {
-      res.status(200).send(rows)
+      res.status(200).send(
+        rows.map((row: any) => {
+          const date = moment(row.date).format(strings.dateFormat)
+          return {
+            ...row,
+            date,
+          }
+        })
+      )
     }
   )
 }
@@ -56,12 +65,45 @@ exports.getNosDateRange = (req: Request, res: Response, _: any) => {
   queryNos(
     queryString(nos_date_range_template, rangeString),
     (err: any, rows: any, fields: any) => {
-      res.status(200).send(rows)
+      res.status(200).send(
+        rows.map((row: any) => {
+          const date = moment(row.date).format(strings.dateFormat)
+          return {
+            ...row,
+            date,
+          }
+        })
+      )
     }
   )
 }
 
-exports.getNosConcelho = (req: Request, res: Response, _: any) => {}
+exports.getNosConcelho = (req: Request, res: Response, _: any) => {
+  if (!req.params.concelho) {
+    res.status(400).send({
+      status: 400,
+      message: 'Bad request. Make sure you have sent a valid concelho param',
+    })
+    return
+  }
+
+  const concelho = `'${req.params.concelho}'`
+
+  queryNos(
+    queryString(nos_concelho_template, concelho),
+    (err: any, rows: any, fields: any) => {
+      res.status(200).send(
+        rows.map((row: any) => {
+          const date = moment(row.date).format(strings.dateFormat)
+          return {
+            ...row,
+            date,
+          }
+        })
+      )
+    }
+  )
+}
 
 const queryNos = (
   queryStr: string,
