@@ -5,6 +5,7 @@ import config from 'config'
 
 import indexRouter from './routes'
 import nosRouter from './routes/nos'
+import riskIqdRouter from './routes/riskIqd'
 
 let port: number = config.get('port')
 const app = express()
@@ -17,8 +18,9 @@ app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/', indexRouter)
+app.use('/', indexRouter)
 app.use('/nos', nosRouter)
+app.use('/riskIqd', riskIqdRouter)
 
 const PORT = process.env.PORT || port
 app.listen(PORT, () => {

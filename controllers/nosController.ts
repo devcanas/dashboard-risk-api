@@ -1,15 +1,14 @@
 import { Request, Response } from 'express'
-import { queryString } from '../query/queryBuilder'
+import { queryString } from '../db/queryBuilder'
 import moment from 'moment'
 import {
   nos_date_template,
   nos_date_range_template,
   nos_concelho_template,
-} from '../query/queryTemplates'
+} from '../constants/queryTemplates'
 
 import strings from '../constants/strings'
-
-import nosDB from '../db/nos'
+import performQuery from '../db/query'
 
 exports.getNosDate = (req: Request, res: Response, _: any) => {
   if (!req.params.date) {
@@ -20,7 +19,7 @@ exports.getNosDate = (req: Request, res: Response, _: any) => {
     return
   }
 
-  queryNos(
+  performQuery(
     queryString(nos_date_template, req.params.date),
     (err: any, rows: any, fields: any) => {
       res.status(200).send(
@@ -62,7 +61,7 @@ exports.getNosDateRange = (req: Request, res: Response, _: any) => {
 
   const rangeString = `DATE('${lowerBoundRange}') and DATE('${upperBoundRange}')`
 
-  queryNos(
+  performQuery(
     queryString(nos_date_range_template, rangeString),
     (err: any, rows: any, fields: any) => {
       res.status(200).send(
@@ -89,7 +88,7 @@ exports.getNosConcelho = (req: Request, res: Response, _: any) => {
 
   const concelho = `'${req.params.concelho}'`
 
-  queryNos(
+  performQuery(
     queryString(nos_concelho_template, concelho),
     (err: any, rows: any, fields: any) => {
       res.status(200).send(
@@ -103,14 +102,4 @@ exports.getNosConcelho = (req: Request, res: Response, _: any) => {
       )
     }
   )
-}
-
-const queryNos = (
-  queryStr: string,
-  callback: (err: any, rows: any, fields: any) => void
-) => {
-  const db = nosDB()
-  db.connect()
-  db.query(queryStr, callback)
-  db.end()
 }
