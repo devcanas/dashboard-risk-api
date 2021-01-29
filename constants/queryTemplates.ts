@@ -1,5 +1,15 @@
 import { QueryTemplate } from '../models/QueryTemplate'
 
+export const init_nos_template: QueryTemplate = {
+  queryString: 'select distinct Data from stay_at_home order by Data desc;',
+  queryPlaceholder: '',
+}
+
+export const init_riskIqd_template: QueryTemplate = {
+  queryString: 'select distinct date from property order by date desc;',
+  queryPlaceholder: '',
+}
+
 export const nos_date_template: QueryTemplate = {
   queryString:
     "select Data as date, `Nome Concelho` as concelho, percent from stay_at_home where Data = DATE('{DATE}');",

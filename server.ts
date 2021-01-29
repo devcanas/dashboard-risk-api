@@ -4,6 +4,7 @@ import cors from 'cors'
 import config from 'config'
 
 import indexRouter from './routes'
+import initRouter from './routes/init'
 import nosRouter from './routes/nos'
 import riskIqdRouter from './routes/riskIqd'
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/', indexRouter)
+app.use('/init', initRouter)
 app.use('/nos', nosRouter)
 app.use('/riskIqd', riskIqdRouter)
 
