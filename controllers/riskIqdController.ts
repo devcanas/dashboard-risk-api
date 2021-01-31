@@ -76,7 +76,7 @@ exports.getRiskIqdDateRange = (req: Request, res: Response, _: any) => {
           return {
             Risk: risk,
             IQD: iqd,
-            date,
+            date: moment(date).format(strings.dateFormat),
           }
         })
         response[key] = group

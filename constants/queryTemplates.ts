@@ -1,7 +1,8 @@
 import { QueryTemplate } from '../models/QueryTemplate'
 
 export const init_nos_template: QueryTemplate = {
-  queryString: 'select distinct Data from stay_at_home order by Data desc;',
+  queryString:
+    'select distinct Data as date from stay_at_home order by Data desc;',
   queryPlaceholder: '',
 }
 

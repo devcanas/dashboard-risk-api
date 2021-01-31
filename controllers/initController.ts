@@ -8,31 +8,46 @@ import strings from '../constants/strings'
 import performQuery from '../db/query'
 import { queryString } from '../db/queryBuilder'
 
+interface InitResponse {
+  selectedDate: string
+  dates: string[]
+}
+
+const getFormattedData = (rows: any): string[] => {
+  return rows.map((row: any) => {
+    return moment(row.date).format(strings.dateFormat)
+  })
+}
+
+const mergedDates = (set1: string[], set2: string[]): string[] => {
+  return [...new Set([...set1, ...set2])].sort((el1: string, el2: string) => {
+    return moment(el1).diff(moment(el2))
+  })
+}
+
+const response = (dates: string[]): InitResponse => {
+  return {
+    selectedDate: dates[dates.length - 1],
+    dates,
+  }
+}
+
+const getResponseFromData = (nosData: any, riskIqdData: any): InitResponse => {
+  const nosDates = getFormattedData(nosData)
+  const riskIqdDates = getFormattedData(riskIqdData)
+  const dates = mergedDates(nosDates, riskIqdDates)
+  return response(dates)
+}
+
 exports.getInit = (req: Request, res: Response, _: any) => {
   performQuery(
     queryString(init_nos_template, strings.empty),
-    (err: any, init_nosRows: any, fields: any) => {
+    (err: any, nosRows: any, fields: any) => {
       performQuery(
         queryString(init_riskIqd_template, strings.empty),
-        (err: any, init_riskIqdRows: any, fields: any) => {
-          res.status(200).send({
-            nos: {
-              most_recent: moment(init_nosRows[0].Data).format(
-                strings.dateFormat
-              ),
-              availableDates: init_nosRows.map((row: any) => {
-                return moment(row.Data).format(strings.dateFormat)
-              }),
-            },
-            riskIqd: {
-              most_recent: moment(init_riskIqdRows[0].date).format(
-                strings.dateFormat
-              ),
-              availableDates: init_riskIqdRows.map((row: any) => {
-                return moment(row.date).format(strings.dateFormat)
-              }),
-            },
-          })
+        (err: any, riskIqdRows: any, fields: any) => {
+          const response = getResponseFromData(nosRows, riskIqdRows)
+          res.status(200).send(response)
         }
       )
     }
