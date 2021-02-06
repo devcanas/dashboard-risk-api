@@ -49,17 +49,15 @@ exports.getNosDateRange = (req: Request, res: Response, _: any) => {
     return
   }
 
-  const date = moment(req.params.date, strings.dateFormat)
-
-  const lowerBoundRange = date
+  const lowerBoundRange = moment(req.params.date, strings.dateFormat)
     .subtract(req.params.range, 'days')
     .format(strings.dateFormat)
 
-  const upperBoundRange = date
+  const upperBoundRange = moment(req.params.date, strings.dateFormat)
     .add(req.params.range, 'days')
     .format(strings.dateFormat)
 
-  const rangeString = `DATE('${lowerBoundRange}') and DATE('${upperBoundRange}')`
+  const rangeString = `'${lowerBoundRange}' and '${upperBoundRange}';`
 
   performQuery(
     queryString(nos_date_range_template, rangeString),
