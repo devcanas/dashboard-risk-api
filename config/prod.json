@@ -1,12 +1,11 @@
 {
   "port": 9000,
   "database": {
-    "nos": {
-      "host": "localhost",
-      "port": 3306,
-      "username": "covid_read",
-      "password": ".v4CTeXSpkam",
-      "name": "nos"
-    }
+    "nosTableName": "nos.stay_at_home",
+    "host": "localhost",
+    "port": 3306,
+    "username": "dashboard_risk",
+    "password": "Y2rzpzKDGE2T",
+    "name": "dashboard_risk"
   }
 }
