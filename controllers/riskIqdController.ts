@@ -29,10 +29,11 @@ exports.getRiskIqdDate = (req: Request, res: Response, _: any) => {
       let response: any = {}
       keys.forEach((key) => {
         const group = grouped[key].map((g) => {
-          const { risk, iqd, date } = g
+          const { risk, iqd, date, isPred } = g
           return {
             Risk: risk,
             IQD: iqd,
+            isPred: isPred === 1,
             date: moment(date).format(strings.dateFormat),
           }
         })
@@ -71,10 +72,11 @@ exports.getRiskIqdDateRange = (req: Request, res: Response, _: any) => {
       let response: any = {}
       keys.forEach((key) => {
         const group = grouped[key].map((g) => {
-          const { risk, iqd, date } = g
+          const { risk, iqd, date, isPred } = g
           return {
             Risk: risk,
             IQD: iqd,
+            isPred: isPred === 1,
             date: moment(date).format(strings.dateFormat),
           }
         })

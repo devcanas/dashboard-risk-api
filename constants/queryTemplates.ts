@@ -35,12 +35,12 @@ export const nos_concelho_template: QueryTemplate = {
 
 export const riskIqd_date_template: QueryTemplate = {
   queryString:
-    "select uuid, date, risk, iqd from property where date = '{DATE}';",
+    "select uuid, date, risk, iqd, isPred from property where date = '{DATE}';",
   queryPlaceholder: '{DATE}',
 }
 
 export const riskIqd_date_range_template: QueryTemplate = {
   queryString:
-    'select uuid, date, risk, iqd from property where date between {DATE_RANGE};',
+    'select uuid, date, risk, iqd, isPred from property where date between {DATE_RANGE};',
   queryPlaceholder: '{DATE_RANGE}',
 }
