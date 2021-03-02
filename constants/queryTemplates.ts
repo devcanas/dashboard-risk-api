@@ -8,7 +8,7 @@ export const init_nos_template: QueryTemplate = {
 }
 
 export const init_riskIqd_template: QueryTemplate = {
-  queryString: 'select distinct date from property order by date desc;',
+  queryString: 'select distinct date, isPred from property order by date desc;',
   queryPlaceholder: '',
 }
 

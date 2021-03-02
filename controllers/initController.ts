@@ -1,33 +1,28 @@
 import { Request, Response } from 'express'
 import moment from 'moment'
-import {
-  init_nos_template,
-  init_riskIqd_template,
-} from '../constants/queryTemplates'
+import { init_nos_template, init_riskIqd_template } from '../constants/queryTemplates'
 import strings from '../constants/strings'
 import performQuery from '../db/query'
 import { queryString } from '../db/queryBuilder'
+import { AvailableDate } from '../models/AvailableDate'
+import { InitResponse } from '../models/InitResponse'
 
-interface InitResponse {
-  selectedDate: string
-  dates: string[]
+const getFormattedData = (rows: any): AvailableDate[] => {
+  return rows.map((row: any) => ({
+    date: moment(row.date).format(strings.dateFormat),
+    isPred: row.isPred === 1 || false,
+  }))
 }
 
-const getFormattedData = (rows: any): string[] => {
-  return rows.map((row: any) => {
-    return moment(row.date).format(strings.dateFormat)
+const mergedDates = (set1: AvailableDate[], set2: AvailableDate[]): AvailableDate[] => {
+  return [...new Set([...set1, ...set2])].sort((el1: AvailableDate, el2: AvailableDate) => {
+    return moment(el1.date).diff(moment(el2.date))
   })
 }
 
-const mergedDates = (set1: string[], set2: string[]): string[] => {
-  return [...new Set([...set1, ...set2])].sort((el1: string, el2: string) => {
-    return moment(el1).diff(moment(el2))
-  })
-}
-
-const response = (dates: string[]): InitResponse => {
+const response = (dates: AvailableDate[]): InitResponse => {
   return {
-    selectedDate: dates[dates.length - 1],
+    selectedDate: dates[dates.length - 1].date,
     dates,
   }
 }
