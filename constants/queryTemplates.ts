@@ -2,8 +2,9 @@ import { QueryTemplate } from '../models/QueryTemplate'
 import config from 'config'
 
 export const init_nos_template: QueryTemplate = {
-  queryString:
-    'select distinct Data as date from stay_at_home order by Data desc;',
+  queryString: `select distinct Data as date from ${config.get(
+    'database.nosTableName'
+  )} order by Data desc;`,
   queryPlaceholder: '',
 }
 
@@ -34,8 +35,7 @@ export const nos_concelho_template: QueryTemplate = {
 }
 
 export const riskIqd_date_template: QueryTemplate = {
-  queryString:
-    "select uuid, date, risk, iqd, isPred from property where date = '{DATE}';",
+  queryString: "select uuid, date, risk, iqd, isPred from property where date = '{DATE}';",
   queryPlaceholder: '{DATE}',
 }
 
