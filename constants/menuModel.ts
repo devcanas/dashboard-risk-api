@@ -181,14 +181,14 @@ export default {
       id: 'continente',
       name: 'Continente',
       coordinates: {
-        lat: 39.38950933,
-        long: -7.77282714,
+        lat: 39.56827914916011,
+        long: -9.469218750000001,
         zoom: 7,
       },
     },
     {
       id: 'acores',
-      name: 'Acores',
+      name: 'Açores',
       coordinates: {
         lat: 38.51378825,
         long: -27.90527343,
