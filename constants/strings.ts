@@ -4,6 +4,7 @@ export default {
   routes: {
     init: {
       path: '/',
+      create: '/createInit',
     },
     nos: {
       date: '/date/:date',

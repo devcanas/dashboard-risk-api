@@ -1,11 +1,10 @@
 import { Request, Response } from 'express'
 import moment from 'moment'
-import { init_nos_template, init_riskIqd_template } from '../constants/queryTemplates'
+import menuModel from '../constants/menuModel'
 import strings from '../constants/strings'
-import performQuery from '../db/query'
-import { queryString } from '../db/queryBuilder'
 import { AvailableDate } from '../models/AvailableDate'
 import { InitResponse } from '../models/InitResponse'
+import clientEndpoints from '../constants/clientEndpoints'
 
 const getFormattedData = (rows: any): AvailableDate[] => {
   return rows.map((row: any) => ({
@@ -35,16 +34,8 @@ const getResponseFromData = (nosData: any, riskIqdData: any): InitResponse => {
 }
 
 exports.getInit = (req: Request, res: Response, _: any) => {
-  performQuery(
-    queryString(init_nos_template, strings.empty),
-    (err: any, nosRows: any, fields: any) => {
-      performQuery(
-        queryString(init_riskIqd_template, strings.empty),
-        (err: any, riskIqdRows: any, fields: any) => {
-          const response = getResponseFromData(nosRows, riskIqdRows)
-          res.status(200).send(response)
-        }
-      )
-    }
-  )
+  res.status(200).send({
+    menus: menuModel,
+    clientEndpoints: { url: `${req.protocol}://${req.get('host')}`, ...clientEndpoints },
+  })
 }
