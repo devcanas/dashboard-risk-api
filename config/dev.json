@@ -6,6 +6,7 @@
     "port": 3306,
     "username": "root",
     "password": "password",
-    "name": "nos"
+    "name": "nos",
+    "connectTimeout": 0
   }
 }

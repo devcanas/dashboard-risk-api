@@ -1,10 +1,7 @@
-import database from './index'
+import Database from './index'
 
-const performQuery = (queryString: string, callback: any) => {
-  const db = database()
-  db.connect()
-  db.query(queryString, callback)
-  db.end()
+const performQuery = (queryString: string): any => {
+  return Database.shared.query({ queryString })
 }
 
 export default performQuery

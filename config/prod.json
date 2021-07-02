@@ -6,6 +6,7 @@
     "port": 3306,
     "username": "dashboard_risk",
     "password": "Y2rzpzKDGE2T",
-    "name": "dashboard_risk"
+    "name": "dashboard_risk",
+    "connectTimeout": 0
   }
 }
