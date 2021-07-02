@@ -1,16 +1,10 @@
-import { Request, Response } from 'express'
-import { queryString } from '../db/queryBuilder'
-import moment from 'moment'
-
-import { riskIqd_date_template, riskIqd_date_range_template } from '../constants/queryTemplates'
-import performQuery from '../db/query'
-
-import { groupBy, iteratee } from 'lodash'
-import strings from '../constants/strings'
-import { RiskIQDResponse } from '../models/RiskIQDResponse'
-import { AvailableDate } from '../models/AvailableDate'
-
 import fs from 'fs'
+import { Request, Response } from 'express'
+import getColors from '../services/getColors'
+
+exports.getRiskIqdColors = async (req: Request, res: Response, _: any) => {
+  res.status(200).send(await getColors())
+}
 
 exports.getRiskIqdDate = (req: Request, res: Response, _: any) => {
   const date = req.params.date
@@ -31,5 +25,3 @@ exports.getRiskIqdDate = (req: Request, res: Response, _: any) => {
     values: riskIqdData,
   })
 }
-
-exports.getRiskIqdDateRange = (req: Request, res: Response, _: any) => {}

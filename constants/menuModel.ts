@@ -1,11 +1,15 @@
+import strings from './strings'
+
+const { dataTypeIds, mapLocationIds } = strings
+
 export default {
   defaultSelectionState: {
-    selectedInfoSourceId: 'risco',
-    selectedMapLocationId: 'continente',
+    selectedInfoSourceId: dataTypeIds.risk,
+    selectedMapLocationId: mapLocationIds.continente,
   },
   infoSourceMenu: [
     {
-      id: 'risco',
+      id: dataTypeIds.risk,
       name: 'Risco',
       description: 'Por 100.000 habitantes',
       intervals: [
@@ -72,7 +76,7 @@ export default {
       ],
     },
     {
-      id: 'incerteza',
+      id: dataTypeIds.iqd,
       name: 'Incerteza',
       description: 'Por 100.000 habitantes',
       intervals: [
@@ -139,7 +143,7 @@ export default {
       ],
     },
     {
-      id: 'sah',
+      id: dataTypeIds.sah,
       name: 'Stay @ Home',
       description: '',
       intervals: [
@@ -178,7 +182,7 @@ export default {
   ],
   mapLocationMenu: [
     {
-      id: 'continente',
+      id: mapLocationIds.continente,
       name: 'Continente',
       coordinates: {
         lat: 39.56827914916011,
@@ -187,7 +191,7 @@ export default {
       },
     },
     {
-      id: 'acores',
+      id: mapLocationIds.acores,
       name: 'Açores',
       coordinates: {
         lat: 38.51378825,
@@ -196,7 +200,7 @@ export default {
       },
     },
     {
-      id: 'madeira',
+      id: mapLocationIds.madeira,
       name: 'Madeira',
       coordinates: {
         lat: 32.76071688,

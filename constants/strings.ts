@@ -1,5 +1,15 @@
 export default {
   dateFormat: 'YYYY-MM-DD',
+  dataTypeIds: {
+    risk: 'risco',
+    iqd: 'incerteza',
+    sah: 'sah',
+  },
+  mapLocationIds: {
+    continente: 'continente',
+    madeira: 'madeira',
+    acores: 'acores',
+  },
   empty: '',
   routes: {
     init: {
@@ -12,8 +22,8 @@ export default {
       concelho: '/concelho/:concelho',
     },
     riskIqd: {
+      colors: '/colors',
       date: '/date/:date',
-      dateRange: '/date/:date/range/:range',
     },
   },
 }

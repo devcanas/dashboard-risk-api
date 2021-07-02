@@ -1,5 +1,5 @@
 export interface AvailableDate {
-  date: string
-  isPred: boolean
-  data?: any[]
+  startDate: string
+  id: string
+  dataLength: number
 }

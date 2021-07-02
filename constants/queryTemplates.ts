@@ -1,6 +1,23 @@
 import { QueryTemplate } from '../models/QueryTemplate'
 import config from 'config'
 
+const availableDateTableName = config.get('database.availableDate')
+
+export const minAvailableDate: QueryTemplate = {
+  queryString: `select distinct date from ${availableDateTableName} where date = (select min(date) from ${availableDateTableName}) and type = '{TYPE}';`,
+  queryPlaceholder: '{TYPE}',
+}
+
+export const availableDatesCount: QueryTemplate = {
+  queryString: `select count(distinct date) as numRows from ${availableDateTableName} where type = '{TYPE}';`,
+  queryPlaceholder: '{TYPE}',
+}
+
+export const availableDates: QueryTemplate = {
+  queryString: `select * from ${availableDateTableName} where type = '{TYPE}';`,
+  queryPlaceholder: '{TYPE}',
+}
+
 export const init_nos_template: QueryTemplate = {
   queryString: `select distinct Data as date from ${config.get(
     'database.nosTableName'

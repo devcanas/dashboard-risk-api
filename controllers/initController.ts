@@ -1,40 +1,42 @@
 import { Request, Response } from 'express'
-import moment from 'moment'
 import menuModel from '../constants/menuModel'
-import strings from '../constants/strings'
 import { AvailableDate } from '../models/AvailableDate'
-import { InitResponse } from '../models/InitResponse'
 import clientEndpoints from '../constants/clientEndpoints'
+import performQuery from '../db/query'
+import { queryString } from '../db/queryBuilder'
+import { availableDatesCount, minAvailableDate } from '../constants/queryTemplates'
+import strings from '../constants/strings'
+import Database from '../db'
 
-const getFormattedData = (rows: any): AvailableDate[] => {
-  return rows.map((row: any) => ({
-    date: moment(row.date).format(strings.dateFormat),
-    isPred: row.isPred === 1 || false,
-  }))
-}
+const getRiskAvailableDates = async (): Promise<AvailableDate> => {
+  const availableDatesQueryString = queryString(availableDatesCount, strings.dataTypeIds.risk)
+  const minAvailableDataQueryString = queryString(minAvailableDate, strings.dataTypeIds.risk)
 
-const mergedDates = (set1: AvailableDate[], set2: AvailableDate[]): AvailableDate[] => {
-  return [...new Set([...set1, ...set2])].sort((el1: AvailableDate, el2: AvailableDate) => {
-    return moment(el1.date).diff(moment(el2.date))
-  })
-}
+  const [availableDatesCountQuery, minAvailableDateQuery]: any = await Promise.all([
+    Database.shared.query({ queryString: availableDatesQueryString }),
+    Database.shared.query({ queryString: minAvailableDataQueryString }),
+  ])
 
-const response = (dates: AvailableDate[]): InitResponse => {
   return {
-    selectedDate: dates[dates.length - 1].date,
-    dates,
+    startDate: minAvailableDateQuery[0].date,
+    dataLength: availableDatesCountQuery[0].numRows,
+    id: strings.dataTypeIds.risk,
   }
 }
 
-const getResponseFromData = (nosData: any, riskIqdData: any): InitResponse => {
-  const nosDates = getFormattedData(nosData)
-  const riskIqdDates = getFormattedData(riskIqdData)
-  const dates = mergedDates(nosDates, riskIqdDates)
-  return response(dates)
+const getNosAvailableDates = () => {
+  // FIXME: implement same but for NOS data
+  return { id: 'nos' }
 }
 
-exports.getInit = (req: Request, res: Response, _: any) => {
+const getAvailableDates = async () => {
+  return [await getRiskAvailableDates(), getNosAvailableDates()]
+}
+
+exports.getInit = async (req: Request, res: Response, _: any) => {
+  const availableDates = await getAvailableDates()
   res.status(200).send({
+    availableDates,
     menus: menuModel,
     clientEndpoints: { url: `${req.protocol}://${req.get('host')}`, ...clientEndpoints },
   })
