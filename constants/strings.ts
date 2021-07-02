@@ -23,7 +23,7 @@ export default {
     },
     riskIqd: {
       colors: '/colors',
-      date: '/date/:date',
+      date: '/:date',
     },
   },
 }
