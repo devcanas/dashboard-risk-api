@@ -19,7 +19,7 @@ const getRiskAvailableDates = async (): Promise<AvailableDate> => {
 
   return {
     startDate: minAvailableDateQuery[0].date,
-    dataLength: availableDatesCountQuery[0].numRows,
+    dataLength: availableDatesCountQuery[0].numRows - 1,
     id: strings.dataTypeIds.risk,
   }
 }

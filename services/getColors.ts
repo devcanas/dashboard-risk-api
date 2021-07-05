@@ -5,7 +5,6 @@ import performQuery from '../db/query'
 import strings from '../constants/strings'
 
 import fs from 'fs'
-import { query } from 'express'
 
 export default async () => {
   const query = queryString(availableDates, strings.dataTypeIds.risk)
@@ -37,7 +36,7 @@ const readFile = async (availableDate: any, isRisk: boolean): Promise<any> => {
 }
 
 const buildResponseForColors = (riskValues: any, iqdValues: any): any => {
-  const response: any = []
+  let response: any = []
   riskValues.forEach((value: any) => {
     const item = response.filter(
       (item: any) => item.date === value.date && item.isPred === value.isPred
@@ -67,6 +66,12 @@ const buildResponseForColors = (riskValues: any, iqdValues: any): any => {
         colors: { iqd: value.data },
       })
     }
+  })
+
+  // eliminate prediction rows if we have a "real" value for it
+  response = response.filter((item: any) => {
+    const itemsForDate = response.filter((i: any) => i.date === item.date)
+    return itemsForDate === 1 || item.isPred === false
   })
 
   return response
